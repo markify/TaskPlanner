@@ -19,6 +19,32 @@ class todoViewController: UITableViewController{
             return 0
         }
     }
+    //Swipe Right Edit
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
+        ->UISwipeActionsConfiguration? {
+        let complete = completeEdit(at: indexPath)
+        return UISwipeActionsConfiguration(actions: [complete])
+    }
+    
+    func completeEdit(at indexPath:IndexPath)-> UIContextualAction {
+        
+        let action = UIContextualAction(style: .normal, title: "Edit") { (action,view,completion) in
+            let alert = UIAlertController(title: "", message: "rename todolist item", preferredStyle: .alert)
+            alert.addTextField(configurationHandler: { (textField) in
+                textField.text = self.item.todolist?[indexPath.row]
+            })
+            alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { (updateAction) in
+                self.item.todolist?[indexPath.row] = alert.textFields!.first!.text!
+                self.item.saveData()
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(alert, animated: false)
+            completion(true)
+        }
+        action.backgroundColor = .orange
+        return action
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -52,6 +78,7 @@ class todoViewController: UITableViewController{
         UserDefaults.standard.synchronize()
         tableView.reloadData()
     }
+    
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
