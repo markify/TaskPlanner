@@ -97,6 +97,14 @@ class todoViewController: UITableViewController{
         return [deleteAction]
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let backgroundImage = UIImage(named:"background.jpg")
+        let imageView = UIImageView(image: backgroundImage)
+        imageView.alpha = 0.4
+        self.tableView.backgroundView = imageView
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         item.loadData()
         tableView.reloadData()
