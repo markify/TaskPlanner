@@ -9,7 +9,6 @@ import UIKit
 
 class todoViewController: UITableViewController{
     
-    var checkmarks = [Int : Bool]()
     var item = todoModel()
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -19,7 +18,7 @@ class todoViewController: UITableViewController{
             return 0
         }
     }
-    //Swipe Right Edit
+    
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
         ->UISwipeActionsConfiguration? {
             let complete = completeEdit(at: indexPath)
@@ -53,15 +52,6 @@ class todoViewController: UITableViewController{
         cell?.textLabel?.text = item.todolist?[indexPath.row]
         cell?.backgroundColor = .clear
         cell?.tintColor = .black
-        if checkmarks[indexPath.row] != nil{
-            cell?.accessoryType = checkmarks[indexPath.row]! ? .checkmark :.none
-        } else {
-            checkmarks[indexPath.row] = false
-            cell?.accessoryType = .none
-        }
-        
-        UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: checkmarks), forKey: "checkmarks")
-        UserDefaults.standard.synchronize()
         return cell!
     }
     
@@ -87,8 +77,7 @@ class todoViewController: UITableViewController{
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]{
         
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { (action, indexPath) in
-            
-            self.checkmarks[indexPath.row] = false
+
             self.item.todolist?.remove(at: indexPath.row)
             self.item.saveData()
             tableView.reloadData()
@@ -110,13 +99,5 @@ class todoViewController: UITableViewController{
         tableView.reloadData()
         
     }
-    
-    override func viewDidLoad() {
-        if let checks = UserDefaults.standard.value(forKey: "checkmarks") as? NSData {
-            checkmarks = NSKeyedUnarchiver.unarchiveObject(with: checks as Data) as! [Int : Bool]
-        }
-        
-    }
-    
 }
 
