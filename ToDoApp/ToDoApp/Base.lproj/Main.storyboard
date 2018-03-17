@@ -34,6 +34,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Todos" id="yxs-5E-oS8">
+                        <barButtonItem key="leftBarButtonItem" systemItem="trash" id="XLY-b4-G4F">
+                            <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="deleteAll:" destination="fft-OA-Ief" id="awj-kj-fHa"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="6nN-fY-bzu">
                             <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
