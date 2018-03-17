@@ -25,7 +25,7 @@ class todoViewController: UITableViewController{
         let complete = completeEdit(at: indexPath)
         return UISwipeActionsConfiguration(actions: [complete])
     }
-    
+
     func completeEdit(at indexPath:IndexPath)-> UIContextualAction {
         
         let action = UIContextualAction(style: .normal, title: "Edit") { (action,view,completion) in
@@ -67,6 +67,7 @@ class todoViewController: UITableViewController{
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath as IndexPath) {
+            
             if cell.accessoryType == . checkmark {
                 checkmarks[indexPath.row] = false
             } else {
@@ -108,6 +109,7 @@ class todoViewController: UITableViewController{
     override func viewDidAppear(_ animated: Bool) {
         item.loadData()
         tableView.reloadData()
+
     }
     
     override func viewDidLoad() {
