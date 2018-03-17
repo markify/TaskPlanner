@@ -25,6 +25,20 @@ class todoViewController: UITableViewController{
             return UISwipeActionsConfiguration(actions: [complete])
     }
     
+    @IBAction func deleteAll(_ sender: UIBarButtonItem) {
+        let refreshAlert = UIAlertController(title: "Delete all Todos", message: "All todos will be deleted ! To delete only one todo swipe left on a todo row", preferredStyle: UIAlertControllerStyle.alert)
+        
+        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+            self.item.todolist?.removeAll()
+            self.item.saveData()
+            self.tableView.reloadData()
+        }))
+        
+        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+        }))
+        present(refreshAlert, animated: true, completion: nil)
+    }
+    
     func completeEdit(at indexPath:IndexPath)-> UIContextualAction {
         
         let action = UIContextualAction(style: .normal, title: "Edit") { (action,view,completion) in
@@ -77,7 +91,7 @@ class todoViewController: UITableViewController{
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]{
         
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { (action, indexPath) in
-
+            
             self.item.todolist?.remove(at: indexPath.row)
             self.item.saveData()
             tableView.reloadData()

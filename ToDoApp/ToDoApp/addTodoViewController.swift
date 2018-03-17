@@ -9,7 +9,7 @@ import UIKit
 class addTodoViewController: UIViewController{
     
     var todos = todoModel()
-   
+    
     @IBOutlet weak var todoText: UITextField!
     
     @IBAction func addButtonPressed(_ sender: UIButton) {
@@ -31,6 +31,6 @@ class addTodoViewController: UIViewController{
         alert.addAction(UIAlertAction(title: "Continue", style: .cancel, handler: nil))
         self.present(alert, animated: true)
     }
-
+    
 }
 
