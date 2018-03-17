@@ -22,10 +22,10 @@ class todoViewController: UITableViewController{
     //Swipe Right Edit
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
         ->UISwipeActionsConfiguration? {
-        let complete = completeEdit(at: indexPath)
-        return UISwipeActionsConfiguration(actions: [complete])
+            let complete = completeEdit(at: indexPath)
+            return UISwipeActionsConfiguration(actions: [complete])
     }
-
+    
     func completeEdit(at indexPath:IndexPath)-> UIContextualAction {
         
         let action = UIContextualAction(style: .normal, title: "Edit") { (action,view,completion) in
@@ -66,17 +66,16 @@ class todoViewController: UITableViewController{
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath as IndexPath) {
+        if tableView.cellForRow(at: indexPath as IndexPath) != nil {
             
-            if cell.accessoryType == . checkmark {
-                checkmarks[indexPath.row] = false
-            } else {
-                cell.accessoryType = .checkmark
-                checkmarks[indexPath.row] = true
+            if(!item.todolist![indexPath.row].contains("✅")){
+                item.todolist![indexPath.row] = "✅  " + item.todolist![indexPath.row]
+            } else if (item.todolist![indexPath.row].contains("✅")){
+                item.todolist![indexPath.row]=item.todolist![indexPath.row].replacingOccurrences(of: "✅", with: "", options: .regularExpression)
+                item.todolist![indexPath.row] = item.todolist![indexPath.row].trimmingCharacters(in: .whitespaces)
             }
+            item.saveData()
         }
-        UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: checkmarks), forKey: "checkmarks")
-        UserDefaults.standard.synchronize()
         tableView.reloadData()
     }
     
@@ -88,7 +87,7 @@ class todoViewController: UITableViewController{
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]{
         
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { (action, indexPath) in
-           
+            
             self.checkmarks[indexPath.row] = false
             self.item.todolist?.remove(at: indexPath.row)
             self.item.saveData()
@@ -109,7 +108,7 @@ class todoViewController: UITableViewController{
     override func viewDidAppear(_ animated: Bool) {
         item.loadData()
         tableView.reloadData()
-
+        
     }
     
     override func viewDidLoad() {
@@ -118,6 +117,6 @@ class todoViewController: UITableViewController{
         }
         
     }
-
+    
 }
 
